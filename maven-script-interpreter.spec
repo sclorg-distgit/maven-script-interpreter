@@ -4,7 +4,7 @@
 
 Name:           %{?scl_prefix}%{pkg_name}
 Version:        1.0
-Release:        6.13%{?dist}
+Release:        6.14%{?dist}
 Summary:        Maven Script Interpreter
 License:        ASL 2.0
 URL:            http://maven.apache.org/shared/%{pkg_name}
@@ -13,11 +13,11 @@ Source0:        http://central.maven.org/maven2/org/apache/maven/shared/%{pkg_na
 BuildArch:      noarch
 
 BuildRequires:  %{?scl_prefix_java_common}javapackages-tools
-BuildRequires:  maven30-groovy
+BuildRequires:  %{?scl_prefix}groovy
 BuildRequires:  %{?scl_prefix_java_common}maven-local
-BuildRequires:  maven30-maven-shared
-BuildRequires:  maven30-maven-surefire-provider-junit
-BuildRequires:  maven30-plexus-containers-component-metadata
+BuildRequires:  %{?scl_prefix}maven-shared
+BuildRequires:  %{?scl_prefix}maven-surefire-provider-junit
+BuildRequires:  %{?scl_prefix}plexus-containers-component-metadata
 
 %description
 This component provides some utilities to interpret/execute some scripts for
@@ -33,7 +33,7 @@ API documentation for %{pkg_name}.
 
 %prep
 %setup -q -n %{pkg_name}-%{version}
-%{?scl:scl enable maven30 %{scl} - <<"EOF"}
+%{?scl:scl enable %{scl} - <<"EOF"}
 set -e -x
 # use plexus-component-metadata instead of old plugin
 %pom_remove_plugin :plexus-maven-plugin
@@ -51,13 +51,13 @@ set -e -x
 %{?scl:EOF}
 
 %build
-%{?scl:scl enable maven30 %{scl} - <<"EOF"}
+%{?scl:scl enable %{scl} - <<"EOF"}
 set -e -x
 %mvn_build -- -Dproject.build.sourceEncoding=UTF-8
 %{?scl:EOF}
 
 %install
-%{?scl:scl enable maven30 %{scl} - <<"EOF"}
+%{?scl:scl enable %{scl} - <<"EOF"}
 set -e -x
 %mvn_install
 %{?scl:EOF}
@@ -72,6 +72,9 @@ set -e -x
 
 
 %changelog
+* Mon Jan 11 2016 Michal Srb <msrb@redhat.com> - 1.0-6.14
+- maven33 rebuild #2
+
 * Sat Jan 09 2016 Michal Srb <msrb@redhat.com> - 1.0-6.13
 - maven33 rebuild
 
